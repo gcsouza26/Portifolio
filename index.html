@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gustavo Carmo de Souza | Manutenção orientada a dados</title>
+<meta name="description" content="Portfólio de Gustavo Carmo de Souza, coordenador de manutenção industrial: análise de dados aplicada a cabines de pintura.">
+<link rel="canonical" href="https://gcsouza26.github.io/portfolio/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%93%8A%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://gcsouza26.github.io/portfolio/">
+<meta property="og:title" content="Gustavo Carmo de Souza | Manutenção orientada a dados">
+<meta property="og:description" content="Análise de dados aplicada a cabines de pintura: modelo de previsão, setpoint e demanda do sistema.">
+<meta property="og:image" content="https://gcsouza26.github.io/portfolio/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2F4F6;--surface:#FFFFFF;--ink:#14202E;--muted:#4D5B6B;--line:#D3DAE1;--accent:#1F4E79;--on-accent:#FFFFFF;--warn:#C2410C;--pt:#6C86A0;--hum:#0F766E;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E151D;--surface:#16202B;--ink:#E8EEF4;--muted:#9AA9B8;--line:#27343F;--accent:#7DB4E8;--on-accent:#0E151D;--warn:#FF8A4C;--pt:#7F9BB5;--hum:#5EC4B6}}
+:root[data-theme="dark"]{--bg:#0E151D;--surface:#16202B;--ink:#E8EEF4;--muted:#9AA9B8;--line:#27343F;--accent:#7DB4E8;--on-accent:#0E151D;--warn:#FF8A4C;--pt:#7F9BB5;--hum:#5EC4B6}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 "IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;line-height:1.1;margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+header{padding:22px 0;border-bottom:1px solid var(--line)}
+header .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;align-items:baseline}
+.name{font:700 20px "IBM Plex Sans Condensed",sans-serif}
+.role{color:var(--muted);font-size:15px}
+.hero{display:grid;gap:32px;padding:44px 0 56px}
+.hero h1{font-size:clamp(34px,6.4vw,58px);font-weight:700;letter-spacing:-.01em}
+.hero p.lead{font-size:19px;color:var(--muted);max-width:46ch;margin:20px 0 28px}
+.btn{display:inline-block;background:var(--accent);color:var(--on-accent);padding:12px 22px;border-radius:6px;font-weight:600;text-decoration:none}
+.btn:hover{filter:brightness(1.1)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px}
+.controls{display:grid;gap:14px;margin-bottom:6px}
+.controls label{font-weight:500}
+input[type=range]{width:100%;accent-color:var(--accent);height:32px}
+.readout{display:flex;flex-wrap:wrap;gap:6px 24px;align-items:baseline}
+.readout b{font:700 34px "IBM Plex Sans Condensed",sans-serif;font-variant-numeric:tabular-nums;color:var(--accent)}
+.chk{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:15px}
+.chk input{width:20px;height:20px;accent-color:var(--warn)}
+svg{width:100%;height:auto;display:block}
+svg text{fill:var(--muted);font:12px "IBM Plex Sans",sans-serif}
+.grid{stroke:var(--line);stroke-width:1}
+.dot{fill:var(--pt);opacity:.75}
+.dot.an{fill:var(--warn);opacity:1;stroke:var(--surface);stroke-width:1.5}
+.fit{stroke:var(--accent);stroke-width:2.5}
+.mk{stroke:var(--accent);stroke-width:1.5;stroke-dasharray:4 4}
+.mkd{fill:var(--accent);stroke:var(--surface);stroke-width:2}
+.note{font-size:14px;color:var(--muted);margin:10px 0 0}
+section{padding:48px 0;border-top:1px solid var(--line)}
+section h2{font-size:clamp(26px,4vw,36px);margin-bottom:18px}
+.cols{display:grid;gap:28px}
+.prose{max-width:62ch}
+ol.steps{margin:0;padding-left:22px;max-width:62ch}
+ol.steps li{margin-bottom:12px;padding-left:4px}
+ol.steps li::marker{font-weight:700;color:var(--accent)}
+.uses{display:grid;gap:16px}
+.uses div{border-left:3px solid var(--accent);padding:2px 0 2px 16px}
+.uses h3{font-size:21px;margin-bottom:4px}
+.uses p{margin:0;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:10px;padding:0;margin:0;list-style:none}
+.chips li{border:1px solid var(--line);background:var(--surface);padding:6px 14px;border-radius:999px;font-weight:500;font-size:15px}
+.facts{display:grid;gap:14px;margin:0;padding:0;list-style:none}
+.facts li{padding-left:18px;position:relative}
+.facts li::before{content:"";position:absolute;left:0;top:.7em;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+footer{border-top:1px solid var(--line);padding:28px 0 36px;color:var(--muted);font-size:15px}
+@media (min-width:860px){
+.hero{grid-template-columns:5fr 6fr;align-items:center;gap:48px;padding:64px 0 72px}
+.cols{grid-template-columns:1fr 1fr;gap:56px}
+.uses{grid-template-columns:repeat(3,1fr);gap:28px}
+}
+.readout{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.readout div{display:flex;flex-direction:column}
+.readout span{font-size:14px;color:var(--muted);line-height:1.3}
+.readout b{font-size:28px}
+#cv{color:var(--ink)}#qv{color:var(--warn)}
+.ln{fill:none;stroke-width:2.5;stroke-linejoin:round}
+.l1{stroke:var(--ink)}.l2{stroke:var(--warn)}.l3{stroke:var(--accent)}
+svg text.t2{fill:var(--warn);font-weight:600}svg text.t3{fill:var(--accent);font-weight:600}
+.tw{overflow-x:auto}
+table.cmp{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.cmp th,.cmp td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:right}
+.cmp thead th{font-weight:600;color:var(--muted);font-size:15px}
+.cmp th:first-child{text-align:left}
+.cmp tbody th{font-weight:500}
+.cmp td:last-child{font-weight:700;color:var(--accent)}
+.scn{display:flex;flex-wrap:wrap;gap:8px}
+.scn button{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:6px 14px;border-radius:999px;cursor:pointer}
+.scn button:hover{border-color:var(--accent)}
+#hv,#mv{color:var(--hum)}
+.l4{stroke:var(--hum)}
+.dt{stroke:none}.dt.l1{fill:var(--ink)}.dt.l2{fill:var(--warn)}.dt.l3{fill:var(--accent)}.dt.l4{fill:var(--hum)}
+svg text.t4{fill:var(--hum);font-weight:600}
+.readout{grid-template-columns:repeat(2,1fr)}
+@media (min-width:560px){.readout{grid-template-columns:repeat(4,1fr)}}
+.gl{font-size:14px;color:var(--muted);margin-top:4px}
+#mb button{padding:4px 10px;font-size:13px}
+#mb button[aria-pressed=true]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.ex{stroke-dasharray:5 5;opacity:.55}
+.band{stroke:none;opacity:.16}.b2{fill:var(--warn)}.b3{fill:var(--accent)}
+.intro{padding:36px 0 0}
+.intro .prose{font-size:18px;max-width:980px}
+.intro p{margin:0 0 14px}.intro p:last-child{margin:0}
+.intro .prose{margin-left:auto;margin-right:auto}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap">
+<span class="name">Gustavo Carmo de Souza</span>
+<span class="role">Coordenador de manutenção industrial</span>
+</div>
+</header>
+
+<div class="wrap intro">
+<div class="prose">
+<p>Manutenção hoje em dia gera uma quantidade enorme de dados que podem ser usados para tomada de decisão no dia a dia.</p>
+<p>Mesmo tendo isso em mente, tenho certeza de que a pressão da operação faz com que muitas vezes negligenciemos essas informações e sigamos de incêndio em incêndio, e que, falando por mim, isso nos deixa numa zona de conforto, porque tecnicamente você está resolvendo os problemas, mas isso não quer dizer que você está encerrando eles ou, pior, que poderia estar prevendo.</p>
+<p>Em um dos meses de calmaria... rsrsrs, o que não é muito comum, com a ajuda do <a href="https://www.linkedin.com/in/nathanguilherme/" target="_blank" rel="noopener">analista de automação da linha de pintura</a>, separamos os dados das cabines, com sensores, atuadores e motores, e da linha do chiller. Ainda durante meu bootcamp de Data Science, utilizei esses dados para analisar o sistema e fazer exatamente o que comentei no parágrafo anterior. Será que as falhas do supervisório são do equipamento ou o sistema como um todo está sobrecarregado pela demanda e pela combinação de temperatura e umidade? Outra pergunta era: nosso setpoint corresponde à nossa capacidade de tratamento do ar? Podemos, com esses dados, prever demanda e saber se o equipamento precisa de manutenção, retrofit ou um ajuste de parâmetros?</p>
+<p>Com tudo isso em mente, vou apresentar os dados e minha conclusão e, mais ao fim, como eu penso em utilizar esses dados para predições futuras.</p>
+</div>
+</div>
+
+<main>
+<div class="wrap hero">
+<div>
+<h1>Quando a temperatura sobe, o que acontece com a cabine de pintura?</h1>
+<p class="lead">Treinei um modelo com 4.723 leituras reais de uma cabine de pintura (2023, antes da modificação) e o apliquei ao clima médio de cada mês em Diadema. Mexa nas barras ou escolha um mês.</p>
+<a class="btn" href="https://www.linkedin.com/in/gustavo-carmo-de-souza-73b405a3" target="_blank" rel="noopener">Falar comigo no LinkedIn</a>
+</div>
+<div class="card">
+<div class="controls">
+<label for="t">Temperatura de entrada: <span id="tv"></span></label>
+<input id="t" type="range" min="13" max="34" step="0.1" value="23.5">
+<label for="u">Umidade de entrada: <span id="uv"></span></label>
+<input id="u" type="range" min="30" max="95" step="1" value="59">
+<div class="gl">Média de cada mês em Diadema</div>
+<div class="scn" id="mb" role="group" aria-label="Médias mensais de Diadema"></div>
+<div class="readout"><div><span>Temperatura da cabine</span><b id="cv"></b></div><div><span>Umidade da cabine</span><b id="hv"></b></div><div><span>Queimador</span><b id="qv"></b></div><div><span>Válvula de água gelada</span><b id="vv"></b></div></div>
+</div>
+<svg id="chart" viewBox="0 0 640 530" role="img" aria-label="Três gráficos de previsão por temperatura de entrada, na umidade escolhida: temperatura da cabine, abertura dos atuadores e umidade da cabine"></svg>
+<p class="note" id="nn"></p>
+<p class="note">Previsão de um modelo treinado com a base de 2023 (dias úteis, cabine ligada), antes da modificação da cabine. Trecho tracejado: poucas leituras por perto, previsão menos confiável.</p>
+</div>
+</div>
+
+<section>
+<div class="wrap cols">
+<div>
+<h2>A pergunta</h2>
+<div class="prose">
+<p>Cabines de pintura precisam de temperatura e umidade sob controle o tempo todo. Os equipamentos que garantem isso trabalham mais quando o clima de fora aperta.</p>
+<p>A dúvida da manutenção é prática: quanto desse esforço o clima explica, e quando o equipamento está pedindo ajuda além do que o tempo justifica?</p>
+</div>
+</div>
+<div>
+<h2>Como eu analiso</h2>
+<ol class="steps">
+<li>Reúno 6.847 leituras de 16 variáveis, uma a cada 10 minutos, de maio a junho de 2023.</li>
+<li>Descarto os fins de semana (manutenção técnica) e os momentos com a cabine desligada: ficam 4.723 leituras. Limpo e converto os dados com pandas e numpy.</li>
+<li>Mapeio distribuições e correlações de Pearson com seaborn e scipy.</li>
+<li>Ajusto uma regressão linear com scikit-learn, confirmo com statsmodels e testo em período posterior ao treino.</li>
+<li>Comparo com séries temporais: média móvel e suavização exponencial.</li>
+<li>Treino um modelo só com temperatura e umidade de entrada e o aplico às médias mensais de Diadema.</li>
+</ol>
+</div>
+</div>
+</section>
+
+<section>
+<div class="wrap">
+<h2>O ano inteiro, por previsão</h2>
+<div class="cols">
+<div class="prose">
+<p>A cabine foi modificada depois da coleta, então os dados de 2023 não descrevem o equipamento de hoje. Por isso refiz a pergunta: treinei um modelo com a base de 2023 e o apliquei ao clima médio de cada mês em Diadema, para cobrir um período maior que maio e junho.</p>
+<p>A temperatura do ar de fora vem das normais de 1991 a 2020 do INMET (estação Mirante de Santana, em São Paulo, a referência da região) e a umidade, de uma estimativa de reanálise da NASA. A entrada da cabine é mais quente que o ar de fora: em maio ficou 8,2 °C acima da média do mês e em junho, 4,3 °C. Usei a média de 6,8 °C, conservei a umidade absoluta do ar, ajustei a umidade para casar com a base e tratei a faixa dos dois meses como incerteza.</p>
+</div>
+<div class="prose">
+<p>De junho a setembro o queimador fica entre 39% e 44%. De dezembro a março a válvula de água gelada entra em ação (cerca de 32% a 34%) e a cabine chega mais perto de 25 °C, entre 24,1 e 24,7 °C. Em todos os meses a cabine prevista fica dentro de 21 a 25 °C e acima do limite de 23 °C do setpoint antigo.</p>
+<p>Esses são pontos médios do mês: tardes quentes e madrugadas frias ficam de fora. Em dezembro a março a incerteza da entrada pesa muito na válvula, que vai de 5% a 39%.</p>
+</div>
+</div>
+<div class="card" style="margin-top:28px">
+<svg id="chartY" viewBox="0 0 640 310" role="img" aria-label="Abertura prevista do queimador e da válvula de água gelada em cada mês do ano, com faixa de incerteza"></svg>
+<p class="note">Linha: previsão com a diferença média de 6,8 °C entre a entrada e o ar de fora. Faixa: previsões com 4,3 °C e 8,2 °C.</p>
+</div>
+<div class="tw" style="margin-top:24px"><table class="cmp" style="min-width:820px">
+<thead><tr><th scope="col">Mês</th><th scope="col">Ar de fora</th><th scope="col">Entrada estimada</th><th scope="col">Cabine</th><th scope="col">Queimador</th><th scope="col">Válvula de água gelada</th><th scope="col">Umidade da cabine</th></tr></thead>
+<tbody><tr><th scope="row">Janeiro</th><td>22,5 °C / 84%</td><td>29,3 °C / 61%</td><td>24,4 °C</td><td>10% (10 a 14)</td><td>34% (5 a 39)</td><td>68%</td></tr><tr><th scope="row">Fevereiro</th><td>22,7 °C / 84%</td><td>29,5 °C / 61%</td><td>24,4 °C</td><td>10% (10 a 14)</td><td>34% (5 a 39)</td><td>68%</td></tr><tr><th scope="row">Março</th><td>21,8 °C / 86%</td><td>28,6 °C / 62%</td><td>24,7 °C</td><td>11% (10 a 14)</td><td>33% (5 a 33)</td><td>67%</td></tr><tr><th scope="row">Abril</th><td>20,3 °C / 85%</td><td>27,1 °C / 61%</td><td>24,0 °C</td><td>14% (11 a 21)</td><td>15% (4 a 27)</td><td>67%</td></tr><tr><th scope="row">Maio</th><td>17,6 °C / 85%</td><td>24,4 °C / 61%</td><td>23,5 °C</td><td>24% (22 a 41)</td><td>1% (0 a 9)</td><td>66%</td></tr><tr><th scope="row">Junho</th><td>16,7 °C / 83%</td><td>23,5 °C / 59%</td><td>23,4 °C</td><td>39% (38 a 42)</td><td>0% (0 a 3)</td><td>65%</td></tr><tr><th scope="row">Julho</th><td>16,2 °C / 80%</td><td>23,0 °C / 57%</td><td>23,3 °C</td><td>43% (40 a 43)</td><td>1% (0 a 1)</td><td>63%</td></tr><tr><th scope="row">Agosto</th><td>16,9 °C / 76%</td><td>23,7 °C / 54%</td><td>23,5 °C</td><td>44% (39 a 62)</td><td>1% (1 a 3)</td><td>62%</td></tr><tr><th scope="row">Setembro</th><td>18,1 °C / 75%</td><td>24,9 °C / 54%</td><td>23,7 °C</td><td>41% (33 a 50)</td><td>1% (0 a 1)</td><td>63%</td></tr><tr><th scope="row">Outubro</th><td>19,6 °C / 77%</td><td>26,4 °C / 56%</td><td>23,7 °C</td><td>18% (18 a 29)</td><td>9% (0 a 12)</td><td>65%</td></tr><tr><th scope="row">Novembro</th><td>20,3 °C / 79%</td><td>27,1 °C / 57%</td><td>23,8 °C</td><td>17% (17 a 21)</td><td>3% (3 a 14)</td><td>66%</td></tr><tr><th scope="row">Dezembro</th><td>21,9 °C / 81%</td><td>28,7 °C / 59%</td><td>24,1 °C</td><td>10% (10 a 14)</td><td>32% (5 a 32)</td><td>67%</td></tr></tbody></table></div>
+<p class="note">Queimador e válvula: previsão central e, entre parênteses, a faixa de incerteza. Erro médio do modelo em dias que ele não viu: 0,35 °C na cabine, 10 pontos percentuais no queimador, 8,7 na válvula e 1,6 na umidade da cabine (prevendo sempre a média seriam 0,58 °C, 18,0, 11,5 e 2,6). Só temperatura e umidade de entrada alimentam o modelo, então ele perde exatidão frente ao modelo completo, mas é o único que funciona com o clima de meses sem dados.</p>
+</div>
+</section>
+
+<section>
+<div class="wrap">
+<h2>O que os dados mostram</h2>
+<div class="uses">
+<div><h3>Dias quentes</h3><p>A partir de 30 °C de entrada, a válvula de água gelada passa de cerca de 15% de abertura média para mais de 40%, e a cabine segue em torno de 24,3 a 24,5 °C, perto do limite de 25 °C.</p></div>
+<div><h3>Dias frios</h3><p>Abaixo de 21 °C de entrada, o queimador trabalha entre 50% e 65% em média (65% é a maior abertura da base). Só abaixo de 16 °C, com poucas leituras (cerca de 11 horas), a cabine cai para 19 a 20 °C.</p></div>
+<div><h3>O que o clima explica</h3><p>A regressão linear prevê a temperatura da cabine com R² de 0,89 e erro médio de 0,4 °C em dados posteriores ao treino. Só com temperatura e umidade de entrada, o R² cai para 0,18: o resto vem da resposta do sistema.</p></div>
+</div>
+</div>
+</section>
+
+<section>
+<div class="wrap">
+<h2>Quando a cabine regula com mais dificuldade</h2>
+<div class="prose"><p>Cruzei temperatura e umidade do ar de entrada com o esforço dos equipamentos e com o resultado na cabine. Cada linha é um cenário real da base, sem fins de semana.</p></div>
+<div class="tw" style="margin-top:20px"><table class="cmp" style="min-width:680px">
+<thead><tr><th scope="col">Cenário de entrada</th><th scope="col">Leituras</th><th scope="col">Queimador</th><th scope="col">Válvula de água gelada</th><th scope="col">Cabine</th><th scope="col">Fora de 21 a 25 °C</th></tr></thead>
+<tbody>
+<tr><th scope="row">Frio e úmido (abaixo de 21 °C, 60% ou mais)</th><td>899 (150 h)</td><td>56%</td><td>0,2%</td><td>22,2 °C / 68,2%</td><td>15,2%</td></tr>
+<tr><th scope="row">Frio e seco (abaixo de 21 °C, abaixo de 60%)</th><td>27 (4 h)</td><td>65%</td><td>0,0%</td><td>21,5 °C / 62,7%</td><td>33,3%</td></tr>
+<tr><th scope="row">Quente e seco (24 °C ou mais, abaixo de 50%)</th><td>761 (127 h)</td><td>26%</td><td>15,4%</td><td>24,1 °C / 60,7%</td><td>1,6%</td></tr>
+<tr><th scope="row">Toda a base</th><td>4.723 (787 h)</td><td>35%</td><td>6,5%</td><td>23,4 °C / 64,8%</td><td>3,9%</td></tr>
+</tbody></table></div>
+<p class="note">Queimador e válvula em abertura média; cabine em temperatura e umidade médias. A linha de frio e seco tem poucas leituras para concluir.</p>
+<div class="uses" style="margin-top:32px">
+<div><h3>Frio vem com ar úmido</h3><p>A correlação entre temperatura e umidade de entrada é de -0,85 no período: os dias frios foram úmidos. Frio e seco aparece em só 27 leituras, cerca de 4 horas.</p></div>
+<div><h3>Frio úmido pede o queimador</h3><p>É o cenário frio com mais horas (150): queimador em 56% de abertura média e 15,2% das leituras fora de 21 a 25 °C, contra 3,9% na base toda.</p></div>
+<div><h3>Calor seco baixa a umidade</h3><p>Com 24 °C ou mais e ar abaixo de 50% de umidade, a umidade da cabine fica em 60,7% em média (mínima de 45,1%), contra 64,8% na base toda.</p></div>
+</div>
+<div class="prose" style="margin-top:28px"><p>Os aspersores não têm controle e não deixam sinal na base, então o esforço de umidificação não aparece nos dados: só o resultado na umidade da cabine.</p><p>A base cobre maio e junho. O inverno seco e frio não está nela, e é onde a hipótese de frio e seco ainda precisa de dados.</p></div>
+</div>
+</section>
+
+<section>
+<div class="wrap cols">
+<div>
+<h2>O ganho do novo setpoint</h2>
+<div class="prose">
+<p>Com a correlação em mãos, o setpoint da cabine passou de 22 ± 1 °C para 23 ± 2 °C. O limite antigo gerava alarmes de temperatura fora do especificado com frequência e atrapalhava a disponibilidade da pintura.</p>
+<p>Apliquei as duas faixas às mesmas 4.723 leituras (dias úteis, cabine ligada). Com 21 a 23 °C, 87,1% das leituras ficam fora da faixa. Com 21 a 25 °C, são 3,9%.</p>
+<p>O ganho vem do limite superior: 84,0% das leituras estão acima de 23 °C e só 0,8% acima de 25 °C. Abaixo de 21 °C o resultado é o mesmo nos dois cenários (3,2% das leituras), e o desvio que sobra está nos dias mais frios: 26,1% das leituras com entrada abaixo de 18 °C seguem fora da faixa.</p>
+</div>
+</div>
+<div>
+<div class="tw"><table class="cmp">
+<thead><tr><th scope="col">Indicador</th><th scope="col">22 ± 1 °C</th><th scope="col">23 ± 2 °C</th><th scope="col">Variação</th></tr></thead>
+<tbody>
+<tr><th scope="row">Leituras fora da faixa</th><td>87,1%</td><td>3,9%</td><td>-95%</td></tr>
+<tr><th scope="row">Episódios fora da faixa</th><td>68</td><td>22</td><td>-68%</td></tr>
+<tr><th scope="row">Dias com ao menos uma leitura fora</th><td>35 de 35</td><td>12 de 35</td><td>-66%</td></tr>
+</tbody></table></div>
+<p class="note">Episódio é uma sequência seguida de leituras fora da faixa. Análise retrospectiva: as leituras são as mesmas nos dois cenários. Na prática, mudar o setpoint também muda o comportamento do controle.</p>
+</div>
+</div>
+</section>
+
+<section>
+<div class="wrap">
+<h2>O que essa análise permite</h2>
+<div class="uses">
+<div><h3>Antecipar a carga</h3><p>Prever o esforço dos equipamentos em dias quentes e planejar as intervenções antes do pico.</p></div>
+<div><h3>Separar clima de falha</h3><p>Distinguir o aumento esperado por temperatura do desvio que indica problema no equipamento.</p></div>
+<div><h3>Priorizar com evidência</h3><p>Direcionar a equipe para os ativos que fogem do padrão, em vez de inspecionar tudo igual.</p></div>
+</div>
+</div>
+</section>
+
+<section>
+<div class="wrap cols">
+<div>
+<h2>Minha conclusão</h2>
+<div class="prose">
+<p>As falhas do supervisório não eram só do equipamento. Aplicando o setpoint antigo (22 ± 1 °C) às mesmas leituras, 87,1% ficam fora da faixa. Com 23 ± 2 °C, são 3,9%. Na base, a cabine ficou na maior parte do tempo perto de 23,5 °C, então o limite antigo gerava alarme com frequência e atrapalhava a disponibilidade da pintura. Isso indica que boa parte dos alarmes vinha do setpoint, e não de falha do equipamento.</p>
+<p>O novo setpoint corresponde melhor à nossa capacidade de tratamento do ar no período que analisei. O que sobra de desvio está nos extremos. Nos dias frios, com a entrada abaixo de 18 °C, 26,1% das leituras ainda saem da faixa e o queimador chega a 65% de abertura, o máximo da base. Nos dias quentes, a partir de 30 °C de entrada, a válvula de água gelada passa de 15% para mais de 40% e a cabine fica perto do limite de 25 °C.</p>
+</div>
+</div>
+<div>
+<h2>Daqui para frente</h2>
+<div class="prose">
+<p>Com a previsão de demanda, a decisão fica mais clara. Se o equipamento entrega menos do que o previsto, é manutenção. Se a demanda prevista passa do que a cabine consegue tratar, é retrofit. Se a demanda cabe e o resultado foge, é ajuste de parâmetros. Para isso preciso de dados da cabine atual, de preferência com um inverno completo e o histórico de alarmes.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section>
+<div class="wrap cols">
+<div>
+<h2>Ferramentas</h2>
+<ul class="chips"><li>Python</li><li>pandas</li><li>numpy</li><li>seaborn</li><li>scipy</li><li>scikit-learn</li><li>statsmodels</li></ul>
+</div>
+<div>
+<h2>Quem assina</h2>
+<ul class="facts">
+<li>Coordenador de manutenção industrial, com liderança de equipes de até 45 pessoas e mais de 100 ativos.</li>
+<li>Liderei a implantação de PCM com foco em manutenção preditiva e proativa.</li>
+<li>Resultado com monitoramento por IA: +20% de disponibilidade em ativos de usinagem.</li>
+<li>Formação em Data Science (Impacta, 2023) e inglês em nível profissional pleno.</li>
+<li>Estudo feito durante o bootcamp de Data Science, com a <a href="https://www.linkedin.com/in/lara-marinelli-146a55b0/" target="_blank" rel="noopener">orientadora do estudo</a> e o apoio do <a href="https://www.linkedin.com/in/nathanguilherme/" target="_blank" rel="noopener">analista de automação</a> da linha de pintura.</li>
+</ul>
+</div>
+</div>
+</section>
+</main>
+
+<footer>
+<div class="wrap">Gustavo Carmo de Souza. Conversa profissional no <a href="https://www.linkedin.com/in/gustavo-carmo-de-souza-73b405a3" target="_blank" rel="noopener">LinkedIn</a>.</div>
+</footer>
+
+<script>
+(function(){
+var P=[[[17.8,64,3,48],[17.8,64,3,48],[17.7,64,3,50],[17.8,64,3,56],[17.8,64,3,59],[17.8,64,2,60],[17.8,64,0,67],[18.4,51,0,69],[18.5,42,0,70],[18.5,36,0,72],[18.2,22,0,77],[20.5,61,0,68],[20.4,65,0,68],[20.4,65,0,68]],[[17.8,64,3,48],[17.8,64,3,48],[17.7,64,3,50],[17.8,64,3,56],[17.8,64,3,59],[17.8,64,2,60],[17.8,64,0,67],[18.4,51,0,69],[18.5,42,0,70],[18.5,36,0,72],[18.2,22,0,77],[20.5,61,0,68],[20.4,65,0,68],[20.4,65,0,68]],[[17.8,64,3,48],[17.8,64,3,48],[17.7,64,3,50],[17.8,64,3,56],[17.8,64,3,59],[17.8,64,2,60],[17.8,64,0,67],[18.4,51,0,69],[18.5,42,0,70],[18.5,36,0,72],[18.2,22,0,77],[20.5,61,0,68],[20.4,65,0,68],[20.4,65,0,68]],[[18.0,64,3,48],[18.0,64,3,48],[18.0,64,3,50],[18.1,64,3,56],[18.1,64,3,58],[18.0,64,2,60],[18.0,64,0,66],[18.7,51,0,69],[18.8,42,0,70],[18.8,36,0,72],[18.6,22,0,77],[21.2,61,0,69],[21.2,65,0,69],[21.2,65,0,69]],[[19.2,64,3,48],[19.2,64,3,48],[19.2,64,3,50],[19.2,64,3,56],[19.2,64,3,59],[19.2,64,2,60],[19.2,64,0,67],[19.9,51,0,69],[20.0,42,0,70],[20.0,36,0,71],[19.8,22,0,76],[22.6,61,0,68],[22.5,65,0,68],[22.5,65,0,68]],[[21.1,64,3,48],[21.1,64,3,48],[21.0,64,3,50],[21.1,64,3,56],[21.1,64,3,59],[21.1,64,2,60],[21.1,64,0,66],[21.8,51,0,68],[21.9,42,0,69],[21.9,36,0,71],[21.7,22,0,75],[23.0,60,0,68],[23.0,62,0,68],[23.0,62,0,68]],[[21.9,64,3,48],[21.9,64,3,48],[21.8,64,3,50],[21.9,64,3,56],[21.9,64,3,59],[21.9,64,2,60],[21.9,64,0,63],[22.6,51,0,65],[22.9,42,0,66],[23.0,36,0,67],[22.9,22,0,71],[23.6,53,1,67],[23.5,59,1,67],[23.5,59,1,67]],[[21.9,64,3,48],[21.9,64,3,48],[21.8,64,3,50],[21.9,64,3,57],[21.9,64,3,59],[21.9,64,2,60],[21.9,64,0,64],[22.6,50,0,66],[23.0,42,0,66],[23.1,36,0,67],[23.0,22,0,71],[23.6,53,1,68],[23.6,59,1,68],[23.6,59,1,68]],[[22.5,63,4,48],[22.5,63,4,48],[22.4,63,4,50],[22.5,63,4,56],[22.5,63,4,59],[22.4,63,4,60],[22.5,63,2,63],[23.1,50,2,65],[23.6,42,2,66],[23.8,36,2,67],[23.8,22,2,71],[23.8,53,2,68],[23.8,59,2,68],[23.8,59,2,68]],[[23.3,53,3,48],[23.3,53,3,48],[23.3,53,3,50],[23.4,53,3,57],[23.4,53,3,59],[23.3,53,2,60],[23.3,54,0,64],[23.4,46,0,66],[24.0,41,0,67],[24.2,35,0,68],[24.1,22,0,71],[24.1,53,0,68],[24.1,58,0,68],[24.1,58,0,68]],[[23.4,46,2,49],[23.4,46,2,49],[23.3,46,2,51],[23.4,46,2,57],[23.4,46,2,60],[23.3,46,1,61],[23.3,39,0,65],[23.4,29,0,67],[24.0,30,0,68],[24.2,29,0,68],[24.1,28,0,71],[24.1,38,0,68],[24.1,41,0,68],[24.1,41,0,68]],[[23.6,40,1,49],[23.6,40,1,49],[23.5,40,1,51],[23.6,40,1,58],[23.6,40,1,60],[23.5,40,0,62],[23.5,30,0,66],[23.6,29,0,67],[24.2,29,0,68],[24.3,29,0,69],[24.3,29,0,71],[24.3,29,0,68],[24.2,29,0,68],[24.2,29,0,68]],[[23.7,40,1,49],[23.7,40,1,49],[23.6,40,1,51],[23.7,40,1,58],[23.7,40,1,61],[23.6,38,4,63],[23.6,20,7,66],[23.8,20,4,67],[24.4,20,4,68],[24.5,20,4,69],[24.4,20,4,71],[24.4,20,4,68],[24.4,20,4,68],[24.4,20,4,68]],[[23.7,36,0,49],[23.7,36,0,49],[23.7,36,0,52],[23.8,38,0,59],[23.8,38,0,62],[23.7,23,8,64],[23.6,16,20,66],[23.8,14,5,67],[24.4,14,5,68],[24.5,14,5,69],[24.4,14,5,71],[24.4,14,5,68],[24.4,14,5,68],[24.4,14,5,68]],[[23.9,30,0,50],[23.9,30,0,50],[23.8,30,0,53],[23.9,34,1,60],[23.9,29,2,64],[23.8,18,9,65],[23.7,16,18,66],[24.3,14,5,67],[24.9,14,5,68],[25.0,14,5,69],[24.9,14,5,71],[24.9,14,5,68],[24.9,14,5,68],[24.9,14,5,68]],[[24.0,30,1,50],[24.0,30,1,50],[24.0,30,1,54],[24.1,32,4,61],[24.1,18,10,64],[24.0,18,18,65],[24.1,15,33,67],[24.6,14,33,67],[25.2,14,33,68],[25.3,14,33,69],[25.2,14,33,71],[25.2,14,33,68],[25.2,14,33,68],[25.2,14,33,68]],[[24.0,33,3,55],[24.0,33,3,55],[24.0,33,3,58],[24.1,33,9,63],[24.1,17,14,65],[24.0,10,21,66],[24.2,10,34,67],[24.7,10,33,68],[25.3,10,33,69],[25.4,10,33,70],[25.3,10,33,72],[25.3,10,33,69],[25.3,10,33,69],[25.3,10,33,69]],[[24.2,17,21,57],[24.2,17,21,57],[24.2,17,21,60],[24.2,13,23,63],[24.2,13,23,66],[24.1,10,27,66],[24.3,10,35,68],[24.9,10,34,68],[25.4,10,34,69],[25.5,10,34,70],[25.5,10,34,72],[25.5,10,34,69],[25.4,10,34,69],[25.4,10,34,69]],[[24.3,17,51,57],[24.3,17,51,57],[24.3,17,51,60],[24.3,13,44,63],[24.3,13,39,66],[24.3,10,39,66],[24.4,10,39,68],[25.0,10,39,69],[25.5,10,39,69],[25.6,10,39,70],[25.5,10,39,72],[25.6,10,39,69],[25.5,10,39,69],[25.5,10,39,69]],[[24.4,17,50,58],[24.4,17,50,58],[24.3,17,50,61],[24.4,12,43,64],[24.5,11,38,67],[24.4,10,38,67],[24.5,10,38,68],[25.1,10,38,69],[25.6,10,38,70],[25.7,10,38,70],[25.6,10,38,73],[25.6,10,38,70],[25.6,10,38,70],[25.6,10,38,70]],[[24.4,17,49,58],[24.4,17,49,58],[24.3,17,49,61],[24.4,12,42,64],[24.5,11,38,67],[24.4,10,38,67],[24.5,10,38,69],[25.1,10,38,69],[25.6,10,38,70],[25.7,10,38,70],[25.6,10,38,73],[25.6,10,38,70],[25.6,10,38,70],[25.6,10,38,70]],[[24.4,17,49,58],[24.4,17,49,58],[24.3,17,49,61],[24.4,12,42,64],[24.5,11,38,67],[24.4,10,38,67],[24.5,10,38,69],[25.1,10,38,69],[25.6,10,38,70],[25.7,10,38,70],[25.6,10,38,73],[25.6,10,38,70],[25.6,10,38,70],[25.6,10,38,70]]],S=[[0,0,0,0,0,0,0,0,0,0,1,1,1,0],[0,0,0,0,0,0,0,0,0,0,1,1,1,0],[0,0,0,0,0,0,0,0,0,1,1,1,1,0],[0,0,0,0,0,0,0,0,1,1,1,1,1,1],[0,0,0,0,0,0,0,1,1,1,1,1,1,1],[0,0,0,0,0,0,0,1,1,1,1,1,1,1],[0,0,0,0,0,1,1,1,1,1,1,1,1,0],[0,0,0,0,1,1,1,1,1,1,1,1,1,0],[0,0,0,0,1,1,1,1,1,1,1,1,1,0],[0,0,0,0,1,1,1,1,1,1,0,0,0,0],[0,0,0,0,1,1,1,1,1,0,0,0,0,0],[0,0,0,1,1,1,1,1,1,0,0,0,0,0],[0,0,1,1,1,1,1,1,1,0,0,0,0,0],[0,0,1,1,1,1,1,1,1,0,0,0,0,0],[0,1,1,1,1,1,1,1,1,0,0,0,0,0],[1,1,1,1,1,1,1,1,1,0,0,0,0,0],[1,1,1,1,1,1,1,1,0,0,0,0,0,0],[0,1,1,1,1,1,1,0,0,0,0,0,0,0],[0,1,1,1,1,1,1,0,0,0,0,0,0,0],[0,1,1,1,1,1,0,0,0,0,0,0,0,0],[0,1,1,1,1,0,0,0,0,0,0,0,0,0],[0,1,1,1,0,0,0,0,0,0,0,0,0,0]],M=[{"mes":"Janeiro","Tamb":22.5,"Uamb":84,"Tin":29.3,"Uin":61,"cab":24.4,"queim":10,"valv":33.5,"cabU":68,"rg":[[24.2,24.9],[9.9,13.6],[5.2,39.2],[66.7,68.1]],"sup":1},{"mes":"Fevereiro","Tamb":22.7,"Uamb":84,"Tin":29.5,"Uin":61,"cab":24.4,"queim":10,"valv":33.5,"cabU":68,"rg":[[24.2,24.9],[9.9,13.6],[5.2,39.2],[66.8,68.1]],"sup":1},{"mes":"Março","Tamb":21.8,"Uamb":86,"Tin":28.6,"Uin":62,"cab":24.7,"queim":11,"valv":33.4,"cabU":67,"rg":[[24.2,24.7],[10.1,14.1],[5.2,33.4],[67.3,68.4]],"sup":1},{"mes":"Abril","Tamb":20.3,"Uamb":85,"Tin":27.1,"Uin":61,"cab":24.0,"queim":14,"valv":14.6,"cabU":67,"rg":[[24.0,24.3],[11.0,20.6],[4.0,26.8],[66.1,68.1]],"sup":1},{"mes":"Maio","Tamb":17.6,"Uamb":85,"Tin":24.4,"Uin":61,"cab":23.5,"queim":24,"valv":1.3,"cabU":66,"rg":[[23.5,24.0],[21.7,40.8],[0.0,8.7],[64.5,66.6]],"sup":1},{"mes":"Junho","Tamb":16.7,"Uamb":83,"Tin":23.5,"Uin":59,"cab":23.4,"queim":39,"valv":0.0,"cabU":65,"rg":[[23.4,23.6],[38.0,42.0],[0.0,2.7],[63.0,66.2]],"sup":1},{"mes":"Julho","Tamb":16.2,"Uamb":80,"Tin":23.0,"Uin":57,"cab":23.3,"queim":43,"valv":0.6,"cabU":63,"rg":[[23.1,23.6],[39.7,43.2],[0.3,1.4],[61.3,65.4]],"sup":1},{"mes":"Agosto","Tamb":16.9,"Uamb":76,"Tin":23.7,"Uin":54,"cab":23.5,"queim":44,"valv":1.1,"cabU":62,"rg":[[23.1,23.7],[39.2,61.5],[0.6,2.6],[60.8,64.7]],"sup":1},{"mes":"Setembro","Tamb":18.1,"Uamb":75,"Tin":24.9,"Uin":54,"cab":23.7,"queim":41,"valv":1.4,"cabU":63,"rg":[[23.4,23.8],[33.0,49.6],[0.1,1.4],[61.8,64.9]],"sup":1},{"mes":"Outubro","Tamb":19.6,"Uamb":77,"Tin":26.4,"Uin":56,"cab":23.7,"queim":18,"valv":8.9,"cabU":65,"rg":[[23.6,24.1],[18.5,29.2],[0.0,11.6],[64.1,67.2]],"sup":1},{"mes":"Novembro","Tamb":20.3,"Uamb":79,"Tin":27.1,"Uin":57,"cab":23.8,"queim":17,"valv":2.8,"cabU":66,"rg":[[23.8,24.1],[16.6,20.6],[2.8,13.7],[64.9,67.4]],"sup":1},{"mes":"Dezembro","Tamb":21.9,"Uamb":81,"Tin":28.7,"Uin":59,"cab":24.1,"queim":10,"valv":31.6,"cabU":67,"rg":[[24.1,24.2],[10.2,14.0],[5.2,31.6],[66.4,67.4]],"sup":1}];
+var W=640,L=46,Rr=14,x0=13,x1=34,cur=null;
+function X(v){return L+(v-x0)/(x1-x0)*(W-L-Rr)}
+function f(v){return v.toFixed(1).replace('.',',')}
+function mk(top,h,lo,hi){return function(v){return top+(hi-v)/(hi-lo)*h}}
+function grid(Y,lo,hi,st,suf){var s='',k;for(k=lo;k<=hi;k+=st)s+='<line class="grid" x1="'+L+'" x2="'+(W-Rr)+'" y1="'+Y(k)+'" y2="'+Y(k)+'"/><text x="'+(L-8)+'" y="'+(Y(k)+4)+'" text-anchor="end">'+k+suf+'</text>';return s}
+function ip(t,u){t=Math.max(13,Math.min(34,t));u=Math.max(30,Math.min(95,u));var a=Math.min(20,Math.floor(t-13)),b=Math.min(12,Math.floor((u-30)/5)),ft=t-13-a,fu=(u-30)/5-b,r=[],i;for(i=0;i<4;i++)r.push(P[a][b][i]*(1-ft)*(1-fu)+P[a+1][b][i]*ft*(1-fu)+P[a][b+1][i]*(1-ft)*fu+P[a+1][b+1][i]*ft*fu);return r}
+function sup(t,u){return S[Math.round(Math.max(13,Math.min(34,t))-13)][Math.round((Math.max(30,Math.min(95,u))-30)/5)]===1}
+function ser(Y,i,c,u){var pts=[],fl=[],k,s='',run,cur2,sg;
+for(k=0;k<22;k++){pts.push(X(13+k)+','+Y(ip(13+k,u)[i]));fl.push(sup(13+k,u))}
+run=[pts[0]];cur2=fl[0]&&fl[1];
+for(k=1;k<22;k++){sg=fl[k-1]&&fl[k];if(sg!==cur2){s+='<polyline class="ln '+c+(cur2?'':' ex')+'" points="'+run.join(' ')+'"/>';run=[pts[k-1]];cur2=sg}run.push(pts[k])}
+return s+'<polyline class="ln '+c+(cur2?'':' ex')+'" points="'+run.join(' ')+'"/>'}
+var Y1=mk(34,120,18,26),Y2=mk(216,120,0,70),Y3=mk(378,90,50,80);
+var svg=document.getElementById('chart'),sl=document.getElementById('t'),su=document.getElementById('u'),mb=document.getElementById('mb');
+function $(i){return document.getElementById(i)}
+function draw(){
+var t=+sl.value,u=+su.value,v=cur?[cur.cab,cur.queim,cur.valv,cur.cabU]:ip(t,u),ok=sup(t,u),h='',k,g;
+h+='<text x="'+L+'" y="22">Temperatura prevista da cabine (°C)</text>'+grid(Y1,18,26,2,'');
+h+='<text x="'+L+'" y="188">Abertura prevista dos atuadores</text><text class="t2" x="'+L+'" y="206">Queimador (%)</text><text class="t3" x="'+(L+110)+'" y="206">Válvula de água gelada (%)</text>'+grid(Y2,0,70,20,'%');
+h+='<text x="'+L+'" y="366">Umidade prevista da cabine (%)</text>'+grid(Y3,50,80,10,'');
+for(k=15;k<=30;k+=5)h+='<text x="'+X(k)+'" y="490" text-anchor="middle">'+k+'</text>';
+h+='<text x="'+((L+W-Rr)/2)+'" y="514" text-anchor="middle">Temperatura de entrada (°C)</text>';
+h+=ser(Y1,0,'l1',u)+ser(Y2,1,'l2',u)+ser(Y2,2,'l3',u)+ser(Y3,3,'l1',u);
+h+='<line class="mk" x1="'+X(t)+'" x2="'+X(t)+'" y1="34" y2="468"/><circle class="mkd" cx="'+X(t)+'" cy="'+Y1(v[0])+'" r="6"/><circle class="mkd" style="fill:var(--warn)" cx="'+X(t)+'" cy="'+Y2(v[1])+'" r="6"/><circle class="mkd" cx="'+X(t)+'" cy="'+Y2(v[2])+'" r="6"/><circle class="mkd" cx="'+X(t)+'" cy="'+Y3(v[3])+'" r="6"/>';
+svg.innerHTML=h;
+$('tv').textContent=f(t)+' °C';$('uv').textContent=Math.round(u)+'%';
+$('cv').textContent=f(v[0])+' °C';$('hv').textContent=Math.round(v[3])+'%';$('qv').textContent=Math.round(v[1])+'%';$('vv').textContent=Math.round(v[2])+'%';
+g=cur?cur.mes+' em Diadema: ar de fora a '+f(cur.Tamb)+' °C e '+cur.Uamb+'% de umidade, entrada estimada em '+f(cur.Tin)+' °C e '+cur.Uin+'%. Com a incerteza da entrada, a cabine fica entre '+f(cur.rg[0][0])+' e '+f(cur.rg[0][1])+' °C, o queimador entre '+Math.round(cur.rg[1][0])+'% e '+Math.round(cur.rg[1][1])+'% e a válvula entre '+Math.round(cur.rg[2][0])+'% e '+Math.round(cur.rg[2][1])+'%.':'Previsão do modelo para esta combinação.';
+$('nn').textContent=g+(ok?'':' Poucas leituras nesta região da base: previsão menos confiável.');
+Array.prototype.forEach.call(mb.children,function(b){b.setAttribute('aria-pressed',cur&&b.dataset.m===cur.mes?'true':'false')})
+}
+M.forEach(function(m){var b=document.createElement('button');b.type='button';b.textContent=m.mes.slice(0,3);b.title=m.mes;b.dataset.m=m.mes;b.addEventListener('click',function(){cur=m;sl.value=m.Tin;su.value=m.Uin;draw()});mb.appendChild(b)});
+sl.addEventListener('input',function(){cur=null;draw()});su.addEventListener('input',function(){cur=null;draw()});
+cur=M[5];sl.value=cur.Tin;su.value=cur.Uin;draw();
+})();
+</script>
+<script>
+(function(){
+var M=[{"mes":"Janeiro","Tamb":22.5,"Uamb":84,"Tin":29.3,"Uin":61,"cab":24.4,"queim":10,"valv":33.5,"cabU":68,"rg":[[24.2,24.9],[9.9,13.6],[5.2,39.2],[66.7,68.1]],"sup":1},{"mes":"Fevereiro","Tamb":22.7,"Uamb":84,"Tin":29.5,"Uin":61,"cab":24.4,"queim":10,"valv":33.5,"cabU":68,"rg":[[24.2,24.9],[9.9,13.6],[5.2,39.2],[66.8,68.1]],"sup":1},{"mes":"Março","Tamb":21.8,"Uamb":86,"Tin":28.6,"Uin":62,"cab":24.7,"queim":11,"valv":33.4,"cabU":67,"rg":[[24.2,24.7],[10.1,14.1],[5.2,33.4],[67.3,68.4]],"sup":1},{"mes":"Abril","Tamb":20.3,"Uamb":85,"Tin":27.1,"Uin":61,"cab":24.0,"queim":14,"valv":14.6,"cabU":67,"rg":[[24.0,24.3],[11.0,20.6],[4.0,26.8],[66.1,68.1]],"sup":1},{"mes":"Maio","Tamb":17.6,"Uamb":85,"Tin":24.4,"Uin":61,"cab":23.5,"queim":24,"valv":1.3,"cabU":66,"rg":[[23.5,24.0],[21.7,40.8],[0.0,8.7],[64.5,66.6]],"sup":1},{"mes":"Junho","Tamb":16.7,"Uamb":83,"Tin":23.5,"Uin":59,"cab":23.4,"queim":39,"valv":0.0,"cabU":65,"rg":[[23.4,23.6],[38.0,42.0],[0.0,2.7],[63.0,66.2]],"sup":1},{"mes":"Julho","Tamb":16.2,"Uamb":80,"Tin":23.0,"Uin":57,"cab":23.3,"queim":43,"valv":0.6,"cabU":63,"rg":[[23.1,23.6],[39.7,43.2],[0.3,1.4],[61.3,65.4]],"sup":1},{"mes":"Agosto","Tamb":16.9,"Uamb":76,"Tin":23.7,"Uin":54,"cab":23.5,"queim":44,"valv":1.1,"cabU":62,"rg":[[23.1,23.7],[39.2,61.5],[0.6,2.6],[60.8,64.7]],"sup":1},{"mes":"Setembro","Tamb":18.1,"Uamb":75,"Tin":24.9,"Uin":54,"cab":23.7,"queim":41,"valv":1.4,"cabU":63,"rg":[[23.4,23.8],[33.0,49.6],[0.1,1.4],[61.8,64.9]],"sup":1},{"mes":"Outubro","Tamb":19.6,"Uamb":77,"Tin":26.4,"Uin":56,"cab":23.7,"queim":18,"valv":8.9,"cabU":65,"rg":[[23.6,24.1],[18.5,29.2],[0.0,11.6],[64.1,67.2]],"sup":1},{"mes":"Novembro","Tamb":20.3,"Uamb":79,"Tin":27.1,"Uin":57,"cab":23.8,"queim":17,"valv":2.8,"cabU":66,"rg":[[23.8,24.1],[16.6,20.6],[2.8,13.7],[64.9,67.4]],"sup":1},{"mes":"Dezembro","Tamb":21.9,"Uamb":81,"Tin":28.7,"Uin":59,"cab":24.1,"queim":10,"valv":31.6,"cabU":67,"rg":[[24.1,24.2],[10.2,14.0],[5.2,31.6],[66.4,67.4]],"sup":1}],W=640,H=310,L=46,Rr=14,T=30,B=48,w=(W-L-Rr)/12;
+function X(i){return L+(i+.5)*w}
+function Y(v){return T+(70-v)/70*(H-T-B)}
+var s='<text x="'+L+'" y="16">Esforço previsto por mês (média do mês)</text><text class="t2" x="'+(W-Rr-150)+'" y="16" text-anchor="end">Queimador (%)</text><text class="t3" x="'+(W-Rr)+'" y="16" text-anchor="end">Válvula de água gelada (%)</text>',k,i;
+for(k=0;k<=60;k+=20)s+='<line class="grid" x1="'+L+'" x2="'+(W-Rr)+'" y1="'+Y(k)+'" y2="'+Y(k)+'"/><text x="'+(L-8)+'" y="'+(Y(k)+4)+'" text-anchor="end">'+k+'%</text>';
+M.forEach(function(m,i){s+='<text x="'+X(i)+'" y="'+(H-B+20)+'" text-anchor="middle">'+m.mes.slice(0,3)+'</text>'});
+[[1,'b2','l2','queim'],[2,'b3','l3','valv']].forEach(function(c){
+var up=M.map(function(m,i){return X(i)+','+Y(m.rg[c[0]][1])}),lo=M.map(function(m,i){return X(i)+','+Y(m.rg[c[0]][0])}).reverse();
+s+='<polygon class="band '+c[1]+'" points="'+up.concat(lo).join(' ')+'"/><polyline class="ln '+c[2]+'" points="'+M.map(function(m,i){return X(i)+','+Y(m[c[3]])}).join(' ')+'"/>'});
+document.getElementById('chartY').innerHTML=s;
+})();
+</script>
+</body>
+</html>
